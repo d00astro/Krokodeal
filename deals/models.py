@@ -11,8 +11,8 @@ class Deal(models.Model):
     imageUrl_url = models.URLField() #This should probably be an ImageField in the long term...
     
     #Optional fields from here I'll add the blank=True
-    normalPrice_decimal = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
-    shippingCost_decimal = models.DecimalField(max_digits=10, decimal_places=2, blank=True, )
+    normalPrice_decimal = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=true)
+    shippingCost_decimal = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=true)
     discountCode_text = models.CharField(max_length=200, blank=True)
     
     #Service fields
