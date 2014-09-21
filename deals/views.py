@@ -1,9 +1,12 @@
 from django.shortcuts import render
+from django.views import generic
 
 from deals.models import Deal
 
 
-def index(request):
-    deals = Deal.objects.all()
-    context = {'deals': deals}
-    return render(request, 'deals/index.html', context)
+class IndexView(generic.ListView):
+    template_name = 'deals/index.html'
+    context_object_name = 'deals'
+    
+    def get_queryset(self):
+        return Deal.objects.all()

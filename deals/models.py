@@ -1,6 +1,5 @@
 from django.db import models
 
-""" Text """
 class Deal(models.Model):
 
     #Mandatory fields
