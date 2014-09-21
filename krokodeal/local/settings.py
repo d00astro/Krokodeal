@@ -1,0 +1,1 @@
+/home/anders/Projects/Krokodeal/krokodeal/settings.py
