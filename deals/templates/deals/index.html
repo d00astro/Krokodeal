@@ -1,0 +1,9 @@
+{% if deals %}
+    <ul>
+    {% for deal in deals %}
+        <li> {{deal}} </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No deals for you today :(</p>
+{% endif %}
