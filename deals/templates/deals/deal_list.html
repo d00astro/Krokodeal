@@ -1,0 +1,27 @@
+{% extends "deals/base.html" %}
+
+{% block title %}Krokodeal - Today's hot deals{% endblock %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>Our fantastic list of deals</h1>
+    </div>
+    <div class="row">
+{% if deals %}
+
+        <div class="list-group">
+        {% for deal in deals %}
+            <a href="#" class="list-group-item">
+                <h4 class="list-group-item-heading">{{deal.title_text}}</h4>
+                <p class="list-group-item-text">
+                    {{deal.description_text}}
+                </p>
+            </a>
+        {% endfor %}
+        </div>
+    
+{% else %}
+        <p>No deals for you today :(</p>
+{% endif %}
+    </div>
+{% endblock %}
