@@ -18,6 +18,7 @@ class Deal(models.Model):
     #Service fields
     dateAdded = models.DateTimeField(auto_now_add=True)
     expired = models.BooleanField(default=False)
+    temperature = models.IntegerField(default=0)
     
     def __str__(self):              # __unicode__ on Python 2
         return self.title_text

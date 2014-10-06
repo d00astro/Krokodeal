@@ -19,9 +19,16 @@
   </head>
   <body>
     <div class="container">
-        {% block content %}
-        <p>Nothing to see here...</p>
-        {% endblock %}
+      <div class="row">
+
+        <div class="col-sm-8">
+          {% block content %}
+          <p>Nothing to see here...</p>
+          {% endblock %}
+        </div>
+        <div class="col-sm-3 col-sm-offset-1">
+          <p>This is a sidebar for top deals and breathing space</p>
+        </div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
