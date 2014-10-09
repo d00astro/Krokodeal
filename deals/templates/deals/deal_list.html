@@ -15,11 +15,14 @@
                 <span>{{deal.price_decimal}} euro</span>
             </a>
             <div class="pull-right">
-              <h4>{{deal.temperature}}</h4>
-              <div class="btn-group-vertical" role="toolbar">
-                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-chevron-down"></span></button>
-              </div>
+                <h4>{{deal.temperature}}</h4>
+                <form action="{% url 'deals:vote' deal.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="btn-group-vertical" role="toolbar">
+                        <button type="submit" name="{{deal.id}}_up" value="up" class="btn btn-default"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                        <button type="submit" name="{{deal.id}}_down" value="down"  class="btn btn-default"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                    </div>
+                </form>
             </div>
             <div class="media-body">
               <h4 class="media-heading">{{deal.title_text}}</h4>
