@@ -1,0 +1,52 @@
+{% extends "deals/base.html" %}
+
+{% block title %}Krokodeal - Share a deal{% endblock %}
+
+{% block content %}
+<form role="form" action="{% url 'deals:add/submit'%}" method="post">
+{% csrf_token %}
+  <div class="form-group">
+    <label for="link_url">Deal URL</label>
+    <input type="url" class="form-control" id="link_url" placeholder="Deal Url">
+  </div>
+  <div class="form-group">
+    <label for="title_text">Title</label>
+    <input type="text" class="form-control" id="title_text">
+  </div>
+  <div class="form-group">
+    <label for="price_decimal">Price</label>
+    <input type="text" class="form-control" id="price_decimal">
+  </div>
+  <div class="form-group">
+    <label for="vendor_text">Vendor</label>
+    <input type="text" class="form-control" id="vendor_text">
+  </div>
+  <div class="form-group">
+    <label for="description_text">Description</label>
+    <input type="text" class="form-control" id="description_text">
+  </div>
+  <div class="form-group">
+    <label for="imageUrl_url">Image Url</label>
+    <input type="text" class="form-control" id="imageUrl_url">
+  </div>    
+
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+{% endblock %}
+
+    'title_text = models.CharField(max_length=200)
+    link_url = models.URLField()
+    vendor_text = models.CharField(max_length=100)
+    price_decimal = models.DecimalField(max_digits=10, decimal_places=2)
+    description_text = models.TextField() #Not sure if we should call it something else like _textarea this is the recommended type for long texts: https://docs.djangoproject.com/en/1.7/ref/models/fields/#textfield
+    imageUrl_url = models.URLField() #This should probably be an ImageField in the long term...
+    
+    #Optional fields from here I'll add the blank=True
+    normalPrice_decimal = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    shippingCost_decimal = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    discountCode_text = models.CharField(max_length=200, blank=True)
+    
+    #Service fields
+    dateAdded = models.DateTimeField(auto_now_add=True)
+    expired = models.BooleanField(default=False)
+    temperature = models.IntegerField(default=0)

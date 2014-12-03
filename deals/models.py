@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelForm
 
 class Deal(models.Model):
 
@@ -22,3 +23,9 @@ class Deal(models.Model):
     
     def __str__(self):              # __unicode__ on Python 2
         return self.title_text
+
+# Create the form class.
+class DealForm(ModelForm):
+    class Meta:
+        model = Deal
+        fields = ['title_text', 'link_url', 'vendor_text', 'price_decimal', 'description_text', 'imageUrl_url', 'normalPrice_decimal', 'shippingCost_decimal', 'discountCode_text']

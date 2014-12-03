@@ -10,7 +10,7 @@
 {% if deals %}
     {% for deal in deals %}
         <div class="media">
-            <a class="pull-left" href="#">
+            <a class="pull-left" href="{% url 'deals:vote' deal.id %}">
                 <img class="media-object" src="{{deal.imageUrl_url}}" alt="{{deal.title_text}}" width="100" height="100" >
                 <span>{{deal.price_decimal}} euro</span>
             </a>
