@@ -2,6 +2,9 @@ from django.shortcuts import get_object_or_404, render
 from django.views import generic
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth import authenticate, login, logout
 
 
 from deals.models import Deal, DealForm
@@ -15,6 +18,7 @@ class IndexView(generic.ListView):
         return Deal.objects.all()
     
 # Create the form class.
+@login_required
 def addDeal(request):
      # if this is a POST request we need to process the form data
     if request.method == 'POST':
@@ -33,18 +37,12 @@ def addDeal(request):
         form = DealForm()
         
     return render(request,'deals/deal_add.html', {'form': form,})
-
-
-def addSubmit(request):
     
-    if deal_id + "_up" in request.POST:
-        aDeal.temperature += 1
-    if deal_id + "_down" in request.POST:
-        aDeal.temperature -= 1
-    
-    aDeal.save()
-    return HttpResponseRedirect(reverse('deals:index'))
+def logoutView(request):
+    logout(request)
+    return HttpResponseRedirect('/deals/')
 
+@login_required
 def vote(request, deal_id):
     
     aDeal = get_object_or_404(Deal, pk=deal_id)

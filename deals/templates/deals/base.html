@@ -27,10 +27,16 @@
           {% endblock %}
         </div>
         <div class="col-sm-3 col-sm-offset-1">
-          <p>This is a sidebar for top deals and breathing space</p>
+          <p>
+          {% if user.is_authenticated %}
+            <p>Welcome, {{ user.username }}. Thanks for logging in. <a href="{% url 'deals:logout'%}">Log out</a></p>
+          {% else %}
+            <p>Welcome, new user. Please <a href="{% url 'deals:login'%}">Log in</a>.</p>
+          {% endif %}
+          </p>
           <p>
             <a class="btn btn-primary btn-lg"href="{% url 'deals:add'%}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Deal</a>
-           </p>
+          </p>
         </div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

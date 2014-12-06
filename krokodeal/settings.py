@@ -53,6 +53,7 @@ ROOT_URLCONF = 'krokodeal.urls'
 
 WSGI_APPLICATION = 'krokodeal.wsgi.application'
 
+LOGIN_URL = '/deals/login/' #Added by Jordi
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
