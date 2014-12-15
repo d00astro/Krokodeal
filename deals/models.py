@@ -1,5 +1,9 @@
+from django import forms
 from django.db import models
 from django.forms import ModelForm
+
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 class Deal(models.Model):
 
@@ -29,3 +33,22 @@ class DealForm(ModelForm):
     class Meta:
         model = Deal
         fields = ['title_text', 'link_url', 'vendor_text', 'price_decimal', 'description_text', 'imageUrl_url', 'normalPrice_decimal', 'shippingCost_decimal', 'discountCode_text']
+
+
+########
+### Extending User Creation Form
+#######
+
+class MyUserCreationForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password1", "password2")
+
+    def save(self, commit=True):
+        user = super(MyUserCreationForm, self).save(commit=False)
+        user.email = self.cleaned_data["email"]
+        if commit:
+            user.save()
+        return user

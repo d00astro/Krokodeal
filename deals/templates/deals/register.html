@@ -1,0 +1,11 @@
+{% extends "deals/base.html" %}
+
+{% block title %}Krokodeal - Share a deal{% endblock %}
+
+{% block content %}
+<form role="form" action="{% url 'deals:register'%}" method="post">
+  {% csrf_token %}
+  {{form.as_p}}
+  <input type="submit" value="Submit" />
+</form>
+{% endblock %}

@@ -6,8 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth import authenticate, login, logout
 
-
-from deals.models import Deal, DealForm
+from deals.models import Deal, DealForm, MyUserCreationForm
 
 
 class IndexView(generic.ListView):
@@ -37,7 +36,27 @@ def addDeal(request):
         form = DealForm()
         
     return render(request,'deals/deal_add.html', {'form': form,})
-    
+
+#Register user
+def registerView(request):
+     # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = MyUserCreationForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # Create a form instance from POST data.
+            form.save()
+            # redirect to a new URL:
+            return HttpResponseRedirect('/deals/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = MyUserCreationForm()
+        
+    return render(request,'deals/register.html', {'form': form,})
+
 def logoutView(request):
     logout(request)
     return HttpResponseRedirect('/deals/')

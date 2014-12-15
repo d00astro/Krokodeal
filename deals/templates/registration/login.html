@@ -8,19 +8,11 @@
 
 <form method="post" action="{% url 'deals:login'%}">
 {% csrf_token %}
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
+{{form.as_p}}
 
 <input type="submit" value="login" />
 <input type="hidden" name="next" value="{% url 'deals:index'%}" />
 </form>
+<a href="{% url 'deals:passwordReset' %}">forgot your password?</a>
 
 {% endblock %}

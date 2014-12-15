@@ -55,6 +55,11 @@ WSGI_APPLICATION = 'krokodeal.wsgi.application'
 
 LOGIN_URL = '/deals/login/' #Added by Jordi
 
+###ADDED BY JORDI AND TO DELETE BEFORE PROD
+EMAIL_BACKEND = 'bandit.backends.smtp.HijackSMTPBackend'
+BANDIT_EMAIL = 'biel.binimelis@mailinator.com'
+#####
+
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
