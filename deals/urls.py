@@ -3,7 +3,9 @@ from django.conf.urls import patterns, url
 from deals import views
 
 urlpatterns = patterns('',
-    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^$', views.NewDealsView.as_view()),
+    url(r'^new/$', views.NewDealsView.as_view(), name='new'),
+    url(r'^hot/$', views.HotDealsView.as_view(), name='hot'),     
     url(r'^add/$', views.addDeal, name='add'), 
     url(r'^register/$', views.registerView, name='register'),
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),

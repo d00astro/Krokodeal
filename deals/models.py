@@ -5,6 +5,8 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+TEMPERATURE_INCREASE = 1
+
 class Deal(models.Model):
 
     #Mandatory fields
@@ -25,14 +27,74 @@ class Deal(models.Model):
     expired = models.BooleanField(default=False)
     temperature = models.IntegerField(default=0)
     
+    
     def __str__(self):              # __unicode__ on Python 2
         return self.title_text
+    
+    def upvote(self, aUserId):
+        aProfile = Profile.objects.get(user=aUserId)
+        
+        
+        
+        if (aProfile in self.profilesThatUpvoted.all()):
+            
+            return False
+        else:
+            #He did not upvote before, let's check if he downvoted before
+            if (aProfile in self.profilesThatDownvoted.all()):
+                #we remove the downvote
+                self.profilesThatDownvoted.remove(aProfile)
+            else:
+                self.profilesThatUpvoted.add(aProfile)
+            
+            self.temperature = self.temperature + TEMPERATURE_INCREASE
+            return True
+
+    def downvote(self, aUserId):
+        aProfile = Profile.objects.get(user=aUserId)
+        
+        if (aProfile in self.profilesThatDownvoted.all()):
+            print("already downvoted")
+            
+            return False
+        else:
+            #He did not upvote before, let's check if he upvoted before
+            if (aProfile in self.profilesThatUpvoted.all()):
+                #we remove the downvote
+                self.profilesThatUpvoted.remove(aProfile)
+            else:
+                self.profilesThatDownvoted.add(aProfile)
+            
+            self.temperature = self.temperature - TEMPERATURE_INCREASE
+            return True
 
 # Create the form class.
 class DealForm(ModelForm):
     class Meta:
         model = Deal
         fields = ['title_text', 'link_url', 'vendor_text', 'price_decimal', 'description_text', 'imageUrl_url', 'normalPrice_decimal', 'shippingCost_decimal', 'discountCode_text']
+
+
+
+#######
+## Profile 
+######
+class Profile(models.Model):
+    user = models.ForeignKey(User)
+    upvotes = models.ManyToManyField(Deal, blank=True, related_name='profilesThatUpvoted')
+    downvotes = models.ManyToManyField(Deal, blank=True, related_name='profilesThatDownvoted')
+        
+    def __str__(self):              # __unicode__ on Python 2
+        return self.user.username
+    
+    """ def __init__(self, aUser):
+        user = aUser
+        votes = 0
+    
+    def __init__(self, aUser, aVotes):
+        user = aUser
+        votes = aVotes"""
+        
 
 
 ########
@@ -51,4 +113,9 @@ class MyUserCreationForm(UserCreationForm):
         user.email = self.cleaned_data["email"]
         if commit:
             user.save()
+            
+            #He de crear el profile just despres
+            myNewProfile = Profile()
+            myNewProfile.user = user
+            myNewProfile.save()
         return user

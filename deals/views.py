@@ -9,12 +9,19 @@ from django.contrib.auth import authenticate, login, logout
 from deals.models import Deal, DealForm, MyUserCreationForm
 
 
-class IndexView(generic.ListView):
+class NewDealsView(generic.ListView):
     template_name = 'deals/deal_list.html'
     context_object_name = 'deals'
     
     def get_queryset(self):
-        return Deal.objects.all()
+        return Deal.objects.all().order_by('-dateAdded')[0:10]
+    
+class HotDealsView(generic.ListView):
+    template_name = 'deals/deal_list.html'
+    context_object_name = 'deals'
+    
+    def get_queryset(self):
+        return Deal.objects.filter(temperature__gte='100').order_by('-dateAdded')[0:10]
     
 # Create the form class.
 @login_required
@@ -67,9 +74,9 @@ def vote(request, deal_id):
     aDeal = get_object_or_404(Deal, pk=deal_id)
     
     if deal_id + "_up" in request.POST:
-        aDeal.temperature += 1
+        aDeal.upvote(request.user.id)
     if deal_id + "_down" in request.POST:
-        aDeal.temperature -= 1
+        aDeal.downvote(request.user.id)
     
     aDeal.save()
-    return HttpResponseRedirect(reverse('deals:index'))
+    return HttpResponseRedirect(reverse('deals:new'))
