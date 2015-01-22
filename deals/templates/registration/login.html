@@ -3,7 +3,7 @@
 {% block content %}
 
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<p>Tu nombre de usuario y contrasena son incorrectos.</p>
 {% endif %}
 
 <form method="post" action="{% url 'deals:login'%}">
@@ -11,8 +11,8 @@
 {{form.as_p}}
 
 <input type="submit" value="login" />
-<input type="hidden" name="next" value="{% url 'deals:index'%}" />
+<input type="hidden" name="next" value="{% url 'deals:new'%}" />
 </form>
-<a href="{% url 'deals:passwordReset' %}">forgot your password?</a>
+<a href="{% url 'deals:passwordReset' %}">Olvidaste tu contrasena?</a>
 
 {% endblock %}

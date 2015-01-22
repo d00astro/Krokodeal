@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'^deals/', include('deals.urls', namespace="deals", app_name="potato")),
     url(r'^deals/', include('django.contrib.auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^i18n/', include('django.conf.urls.i18n')),
 )

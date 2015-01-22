@@ -1,35 +1,48 @@
 {% extends "deals/base.html" %}
+{% load i18n %}
+{% load  deal_extras %}
 
-{% block title %}Krokodeal - Today's hot deals{% endblock %}
+{% block title %}Chollometro - Los chollos del dia{% endblock %}
 
 {% block content %}
 
     <div class="row">
 {% if deals %}
     {% for deal in deals %}
-        <div class="media">
-            <a class="pull-left" href="{% url 'deals:vote' deal.id %}">
-                <img class="media-object" src="{{deal.imageUrl_url}}" alt="{{deal.title_text}}" width="100" height="100" >
-                <span>{{deal.price_decimal}} euro</span>
-            </a>
-            <div class="pull-right">
-                <h4>{{deal.temperature}}</h4>
-                <form action="{% url 'deals:vote' deal.id %}" method="post">
-                    {% csrf_token %}
-                    <div class="btn-group-vertical" role="toolbar">
-                        <button type="submit" name="{{deal.id}}_up" value="up" class="btn btn-default"><span class="glyphicon glyphicon-chevron-up"></span></button>
-                        <button type="submit" name="{{deal.id}}_down" value="down"  class="btn btn-default"><span class="glyphicon glyphicon-chevron-down"></span></button>
-                    </div>
-                </form>
+        <div class="row">
+            <div class="row">
+                <div class="col-md-2">
+                    <a href="{{deal.link_url}}">
+                        <div class="row">
+                            <img src="{{deal.imageUrl_url}}" alt="{{deal.title_text}}" width="100" height="100" >
+                        </div>
+                        <div class="row">
+                            <h4 class="text-right" width="100">{{deal.price_decimal}} &euro;</h4>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-9">
+                    <h4>{{deal.title_text}}</h4>
+                    {{deal.description_text}}
+                </div>
+                <div class="col-md-1">
+                    <h4 class="text-center">{{deal.temperature}}</h4>
+                    <form action="{% url 'deals:vote' deal.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="btn-group-vertical" role="toolbar">
+                            <button type="submit" name="{{deal.id}}_up" value="up" class="btn btn-default btn-sm {{ deal|canUpvoteFormatting:user.id }}"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                            <button type="submit" name="{{deal.id}}_down" value="down"  class="btn btn-default btn-sm {{ deal|canDownvoteFormatting:user.id }}"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="media-body">
-              <h4 class="media-heading">{{deal.title_text}}</h4>
-              {{deal.description_text}}
+            <div class="progress">
+                <div class="progress-bar progress-bar-info" style="width: {{deal.temperature}}%"></div>
             </div>
         </div>
     {% endfor %}
 {% else %}
-        <p>No deals for you today :(</p>
+        <p>Vaya, parece que todo esta muy caro...</p>
 {% endif %}
     </div>
 {% endblock %}

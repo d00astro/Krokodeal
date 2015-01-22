@@ -47,6 +47,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 )
 
 ROOT_URLCONF = 'krokodeal.urls'
@@ -55,25 +56,25 @@ WSGI_APPLICATION = 'krokodeal.wsgi.application'
 
 LOGIN_URL = '/deals/login/' #Added by Jordi
 
-###ADDED BY JORDI AND TO DELETE BEFORE PROD
-EMAIL_BACKEND = 'bandit.backends.smtp.HijackSMTPBackend'
-BANDIT_EMAIL = 'biel.binimelis@mailinator.com'
-#####
-
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'chollometrodb',
     }
 }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-es'
+LANGUAGES = (
+    ('es', 'Spanish'),
+)
+
+
 
 TIME_ZONE = 'UTC'
 

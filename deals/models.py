@@ -5,7 +5,7 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-TEMPERATURE_INCREASE = 1
+TEMPERATURE_INCREASE = 7
 
 class Deal(models.Model):
 
@@ -31,10 +31,26 @@ class Deal(models.Model):
     def __str__(self):              # __unicode__ on Python 2
         return self.title_text
     
+    def canUpvote(self, aUserId):
+        aProfile = Profile.objects.get(user=aUserId)
+                
+        if (aProfile in self.profilesThatUpvoted.all()):
+            return False
+        else:
+            return True
+        
+        
+    def canDownvote(self, aUserId):
+        aProfile = Profile.objects.get(user=aUserId)
+                
+        if (aProfile in self.profilesThatDownvoted.all()):
+            return False
+        else:
+            return True
+        
     def upvote(self, aUserId):
         aProfile = Profile.objects.get(user=aUserId)
-        
-        
+
         
         if (aProfile in self.profilesThatUpvoted.all()):
             
