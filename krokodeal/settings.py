@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '4-#h%*n5xpeajow-qm!0^!#e*9c@$z%5rnbf_oocq*x*%x)308'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 #DEBUG = False
 
 
@@ -57,6 +57,8 @@ ROOT_URLCONF = 'krokodeal.urls'
 WSGI_APPLICATION = 'krokodeal.wsgi.application'
 
 LOGIN_URL = '/deals/login/' #Added by Jordi
+
+DEFAULT_CHARSET = 'ISO-8859-1'  #Added by Jordi
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
