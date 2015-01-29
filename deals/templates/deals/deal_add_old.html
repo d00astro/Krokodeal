@@ -7,34 +7,31 @@
   {% csrf_token %}
   
     {{ form.non_field_errors }}
-    <div class="form-group">
+    <div class="fieldWrapper">
         {{ form.title_text.errors }}
-        <label for="{{ form.title_text.id_for_label }}">T√≠tulo*:</label>
+        <label for="{{ form.title_text.id_for_label }}">Título*:</label>
         {{ form.title_text }}
     </div>
-    <div class="form-group">
+    <div class="fieldWrapper">
         {{ form.description_text.errors }}
-        <label for="{{ form.description_text.id_for_label }}">Descripci√≥n*:</label>
+        <label for="{{ form.description_text.id_for_label }}">Descripción*:</label>
         {{ form.description_text }}
     </div>
-    <div class="form-group">
+    <div class="fieldWrapper">
         {{ form.link_url.errors }}
-        <label for="{{ form.link_url.id_for_label }}">Url del chollo*:</label>
+        <label for="{{ form.link_url.id_for_label }}">Url*:</label>
         {{ form.link_url }}
     </div>
-    <div class="form-group">
+    <div class="fieldWrapper">
         {{ form.price_decimal.errors }}
         <label for="{{ form.price_decimal.id_for_label }}">Precio*:</label>
-        <div class="input-group">
-            {{ form.price_decimal }}
-            <span class="input-group-addon">‚Ç¨</span>
-        </div>
+        {{ form.price_decimal }}
     </div>
-    <div class="form-group">
+    <div class="fieldWrapper">
         {{ form.imageUrl_url.errors }}
         <label for="{{ form.imageUrl_url.id_for_label }}">Url de la imagen:</label>
         {{ form.imageUrl_url }}
     </div>
-  <input type="submit" class="btn btn-primary" value="Submit" />
+  <input type="submit" value="Submit" />
 </form>
 {% endblock %}

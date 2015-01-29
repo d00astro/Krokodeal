@@ -10,7 +10,8 @@
 
     <!-- Bootstrap -->
     <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-
+    <link href="{% static 'customstyles/krokodeal.css' %}" rel="stylesheet">
+    
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -38,42 +39,52 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">El Chollometro</a>
+          <a class="navbar-brand" href="{% url 'deals:new' %}">El Chollometro</a>
         </div>
         {% url 'deals:hot' as hoturl %}
         {% url 'deals:new' as newurl %}
+        {% url 'deals:about' as abouturl %}
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li {% if request.path == hoturl %} class="active"{% endif %}><a href="{{hoturl}}">Chollos</a></li>
             <li {% if request.path == newurl %} class="active"{% endif %}><a href="{{newurl}}">Nuevos</a></li>
+            <li {% if request.path == abouturl %} class="active"{% endif %}><a href="{{abouturl}}">A mi me habla mas sinsillo</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
     <div class="container">
       <div class="row">
-
         <div class="col-sm-8">
           {% block content %}
           <p>Pues no hay nada por aqui...</p>
           {% endblock %}
         </div>
         <div class="col-sm-3 col-sm-offset-1">
-          <p>
           {% if user.is_authenticated %}
-            <p>Buenas, {{ user.username }} <a href="{% url 'deals:logout'%}">desconectate</a></p>
+            <h6>
+              Buenas, <strong>{{ user.username }}</strong>!
+              <small>Ya te ibas? <a href="{% url 'deals:logout'%}">desconectate</a></small>
+              
+            </h6> 
           {% else %}
             <p>Hola, <a href="{% url 'deals:login'%}">haz click para autenticarte</a></p>
+            <p>
+              <a class="btn btn-primary btn-lg"href="{% url 'deals:register'%}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Registrate</a>
+            </p>
           {% endif %}
-          </p>
-          <p>
-            <a class="btn btn-primary btn-lg"href="{% url 'deals:register'%}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Registrate</a>
-          </p>
           <p>
             <a class="btn btn-primary btn-lg"href="{% url 'deals:add'%}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Avisa de un chollo</a>
           </p>
         </div>
+      </div>
     </div>
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">¡Atención! Este sitio usa cookies y tecnologías similares. Si no cambia la configuración de su navegador, usted acepta su uso. <a href="http://www.agpd.es/portalwebAGPD/canaldocumentacion/publicaciones/common/Guias/Guia_Cookies.pdf">Saber más</a></p>
+        <p class="text-muted">Chollometro, algunos derechos reservados, <a href="{% url 'deals:disclaimer' %}">Aviso legal</a></p>
+      </div>
+    </footer>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

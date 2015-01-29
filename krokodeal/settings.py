@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '4-#h%*n5xpeajow-qm!0^!#e*9c@$z%5rnbf_oocq*x*%x)308'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
+DEBUG = True
 #DEBUG = False
 
 
@@ -58,7 +58,7 @@ WSGI_APPLICATION = 'krokodeal.wsgi.application'
 
 LOGIN_URL = '/deals/login/' #Added by Jordi
 
-DEFAULT_CHARSET = 'ISO-8859-1'  #Added by Jordi
+DEFAULT_CHARSET = 'UTF-8'  #Added by Jordi
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -99,8 +99,8 @@ STATIC_URL = '/static/'
 
 #HEROKU CHANGES
 # Parse database configuration from $DATABASE_URL
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
+#import dj_database_url
+#DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

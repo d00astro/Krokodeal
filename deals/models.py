@@ -12,12 +12,13 @@ class Deal(models.Model):
     #Mandatory fields
     title_text = models.CharField(max_length=200)
     link_url = models.URLField()
-    vendor_text = models.CharField(max_length=100)
+
     price_decimal = models.DecimalField(max_digits=10, decimal_places=2)
     description_text = models.TextField() #Not sure if we should call it something else like _textarea this is the recommended type for long texts: https://docs.djangoproject.com/en/1.7/ref/models/fields/#textfield
-    imageUrl_url = models.URLField() #This should probably be an ImageField in the long term...
+    imageUrl_url = models.URLField(default="http://lorempixel.com/g/100/100/cats") #This should probably be an ImageField in the long term...
     
     #Optional fields from here I'll add the blank=True
+    vendor_text = models.CharField(max_length=100, blank=True, null=True)
     normalPrice_decimal = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     shippingCost_decimal = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
     discountCode_text = models.CharField(max_length=200, blank=True)
@@ -88,8 +89,25 @@ class Deal(models.Model):
 class DealForm(ModelForm):
     class Meta:
         model = Deal
-        fields = ['title_text', 'link_url', 'vendor_text', 'price_decimal', 'description_text', 'imageUrl_url', 'normalPrice_decimal', 'shippingCost_decimal', 'discountCode_text']
-
+        fields = ['title_text', 'link_url','price_decimal', 'description_text', 'imageUrl_url']
+        
+        widgets={
+            "title_text":forms.TextInput(attrs={'placeholder':'Claro y conciso: Que es?','class':'form-control'}),
+            "description_text":forms.Textarea(attrs={'placeholder':'Curratelo un poco, convencenos de que acabas de encontrar un buen chollo!','class':'form-control'}),
+            "link_url":forms.TextInput(attrs={'placeholder':'No te olvides del http://','class':'form-control'}),
+            "price_decimal":forms.TextInput(attrs={'placeholder':'asi: 50,3','class':'form-control','type':'text'}),
+            "imageUrl_url":forms.TextInput(attrs={'placeholder':'http://... Si no sabes, te pondremos unos gatos','class':'form-control'}),
+        }
+    
+       
+    
+    def clean_imageUrl_url(self):
+        print("Petupetu2")
+        if(self.cleaned_data['imageUrl_url'] == ""):
+            print("petupetu3")
+            self.cleaned_data['imageUrl_url'] = "http://lorempixel.com/g/100/100/cats"
+            
+        return self.cleaned_data['imageUrl_url'] 
 
 
 #######

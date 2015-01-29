@@ -9,14 +9,14 @@ from django.contrib.auth import authenticate, login, logout
 from deals.models import Deal, DealForm, MyUserCreationForm
 
 
-class NewDealsView(generic.ListView):
+class newDealsView(generic.ListView):
     template_name = 'deals/deal_list.html'
     context_object_name = 'deals'
     
     def get_queryset(self):
         return Deal.objects.all().order_by('-dateAdded')[0:10]
     
-class HotDealsView(generic.ListView):
+class hotDealsView(generic.ListView):
     template_name = 'deals/deal_list.html'
     context_object_name = 'deals'
     
@@ -30,8 +30,10 @@ def addDeal(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = DealForm(request.POST)
+        
         # check whether it's valid:
         if form.is_valid():
+            print("post_check")
             # process the data in form.cleaned_data as required
             # Create a form instance from POST data.
             form.save()
@@ -50,6 +52,7 @@ def registerView(request):
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
         form = MyUserCreationForm(request.POST)
+        
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
@@ -80,3 +83,17 @@ def vote(request, deal_id):
     
     aDeal.save()
     return HttpResponseRedirect(reverse('deals:new'))
+
+
+class disclaimer(generic.ListView):
+    template_name = 'deals/disclaimer.html'
+    
+    def get_queryset(self):
+        return None
+    
+class about(generic.ListView):
+    template_name = 'deals/about.html'
+    
+    def get_queryset(self):
+        return None
+    
