@@ -6,8 +6,8 @@ urlpatterns = patterns('',
     # url(r'^$', 'krokodeal.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     
-    url(r'^deals/', include('deals.urls', namespace="deals", app_name="potato")),
+    url(r'^deals/', include('deals.urls', namespace="deals", app_name="deals")),
     url(r'^deals/', include('django.contrib.auth.urls')),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^i18n/', include('django.conf.urls.i18n')),
+    url(r'^$',include('deals.urls', namespace="deals")),
 )
