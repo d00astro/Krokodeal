@@ -36,10 +36,4 @@
 ehthumbs.db
 Thumbs.db
 
-# My dev config  #
-##################
-
-settings.py
-
-
 
