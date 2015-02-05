@@ -7,8 +7,8 @@
 
     <div class="row">
 {% if deals %}
-    {% for deal in deals %}
         <div class="row">
+    {% for deal in deals %}
             <div class="row">
                 <div class="col-md-2">
                     <a href="{{deal.link_url}}">
@@ -38,8 +38,35 @@
             <div class="progress">
                 <div class="progress-bar progress-bar-info" style="width: {{deal.temperature}}%"></div>
             </div>
-        </div>
     {% endfor %}
+    <!--
+        <div class="btn-group" role="group">
+          
+          <button type="button" class="btn btn-default">1</button>
+          <button type="button" class="btn btn-default">2</button>
+          <button type="button" class="btn btn-default">3</button>
+          <button type="button" class="btn btn-default">...</button>
+          <button type="button" class="btn btn-default">99</button>
+          
+        </div>
+            -->
+        <div class="row">
+            <div class="center-block" >
+        {% if deals.has_previous %}
+                        <a href="{% url 'deals:newPaged' deals.previous_page_number %}" class="btn btn-default"><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span>los nuevos</a>
+        {%else%}
+                        <a href="#" class="btn btn-default disabled"><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span>los nuevos</a>
+        {% endif %}
+        {% if deals.has_next %}                   
+                        <a href="{% url 'deals:newPaged' deals.next_page_number %}" class="btn btn-default">Los viejos<span class="glyphicon glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+        {% else %}
+                        <a href="#" class="btn btn-default disabled">Los viejos<span class="glyphicon glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a>
+        {% endif %}
+        
+        <em> en la página {{deals.number}} de {{deals.paginator.num_pages}} </em>
+            </div>
+        </div>
+    </div>
 {% else %}
         <p>Vaya, parece que todo esta muy caro...</p>
 {% endif %}

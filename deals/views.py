@@ -3,6 +3,7 @@ from django.views import generic
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.contrib.auth import authenticate, login, logout
 
@@ -14,7 +15,27 @@ class newDealsView(generic.ListView):
     context_object_name = 'deals'
     
     def get_queryset(self):
-        return Deal.objects.all().order_by('-dateAdded')[0:10]
+        dealList = Deal.objects.all().order_by('-dateAdded')[0:10]
+        dealPaginator = Paginator(dealList,2)
+        
+        #page = request.GET.get('page')
+        page = self.kwargs.get('page')
+        
+        print(page)
+        
+        if(page == None):
+            page = 1
+            
+        try:
+            deals = dealPaginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            deals = dealPaginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            deals = dealPaginator.page(dealPaginator.num_pages)
+        
+        return deals
     
 class hotDealsView(generic.ListView):
     template_name = 'deals/deal_list.html'

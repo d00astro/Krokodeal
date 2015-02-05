@@ -5,6 +5,7 @@ from deals import views
 urlpatterns = patterns('',
     url(r'^$', views.newDealsView.as_view()),
     url(r'^new/$', views.newDealsView.as_view(), name='new'),
+    url(r'^new/(?P<page>[0-9]+)/$', views.newDealsView.as_view(), name='newPaged'),
     url(r'^hot/$', views.hotDealsView.as_view(), name='hot'),     
     url(r'^add/$', views.addDeal, name='add'),
     url(r'^about/$', views.about.as_view(), name='about'), 
