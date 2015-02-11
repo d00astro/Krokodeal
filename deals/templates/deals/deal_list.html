@@ -4,18 +4,15 @@
 {% block title %}Chollometro - Los chollos del dia{% endblock %}
 
 {% block content %}
-
-    <div class="row">
 {% if deals %}
-        <div class="row">
     {% for deal in deals %}
             <div class="row">
                 <div class="col-md-2">
                     <a href="{{deal.link_url}}">
-                        <div class="row">
+                        <div class="">
                             <img src="{{deal.imageUrl_url}}" alt="{{deal.title_text}}" width="100" height="100" >
                         </div>
-                        <div class="row">
+                        <div class="">
                             <h4 class="text-right" width="100">{{deal.price_decimal}} &euro;</h4>
                         </div>
                     </a>
@@ -66,9 +63,7 @@
         <em> en la página {{deals.number}} de {{deals.paginator.num_pages}} </em>
             </div>
         </div>
-    </div>
 {% else %}
         <p>Vaya, parece que todo esta muy caro...</p>
 {% endif %}
-    </div>
 {% endblock %}
