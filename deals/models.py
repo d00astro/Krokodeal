@@ -34,7 +34,7 @@ class Deal(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
             #Only set the slug when the object is created.
-            self.slug = slugify(self.title_text) #Or whatever you want the slug to use
+            self.slug = slugify(self.title_text[:60]) #Or whatever you want the slug to use
         super(Deal, self).save(*args, **kwargs)
     
     def __str__(self):              # __unicode__ on Python 2
