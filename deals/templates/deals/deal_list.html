@@ -18,7 +18,7 @@
                     </a>
                 </div>
                 <div class="col-md-9">
-                    <h4>{{deal.title_text}}</h4>
+                    <h4><a href="{% url 'deals:dealDetail' deal.slug%}">{{deal.title_text}}</a></h4>
                     {{deal.description_text}}
                 </div>
                 <div class="col-md-1">

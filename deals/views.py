@@ -18,10 +18,7 @@ class newDealsView(generic.ListView):
         dealList = Deal.objects.all().order_by('-dateAdded')[0:10]
         dealPaginator = Paginator(dealList,10)
         
-        #page = request.GET.get('page')
         page = self.kwargs.get('page')
-        
-        print(page)
         
         if(page == None):
             page = 1
@@ -43,6 +40,16 @@ class hotDealsView(generic.ListView):
     
     def get_queryset(self):
         return Deal.objects.filter(temperature__gte='100').order_by('-dateAdded')[0:10]
+
+class dealDetailView(generic.ListView):
+    template_name = 'deals/deal_detail.html'
+    context_object_name = 'deal'
+    
+    def get_queryset(self):
+        mySlug = self.kwargs.get('slug')
+        
+        aDeal = get_object_or_404(Deal, slug=mySlug)
+        return aDeal
     
 # Create the form class.
 @login_required

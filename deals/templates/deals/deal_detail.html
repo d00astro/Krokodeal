@@ -1,0 +1,55 @@
+{% extends "deals/base.html" %}
+{% load  deal_extras %}
+
+{% block title %}Chollometro - {{deal.title_text}}{% endblock %}
+
+{% block content %}
+{% if deal %}
+            <div class="row">
+                <div class="col-md-2">
+                    <a href="{{deal.link_url}}">
+                        <div class="">
+                            <img src="{{deal.imageUrl_url}}" alt="{{deal.title_text}}" width="100" height="100" >
+                        </div>
+                        <div class="">
+                            <h4 class="text-right" width="100">{{deal.price_decimal}} &euro;</h4>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-9">
+                    <h4><a href="{{deal.link_url}}">{{deal.title_text}}</a></h4>
+                    {{deal.description_text}}
+                </div>
+                <div class="col-md-1">
+                    <h4 class="text-center">{{deal.temperature}}</h4>
+                    <form action="{% url 'deals:vote' deal.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="btn-group-vertical" role="toolbar">
+                            <button type="submit" name="{{deal.id}}_up" value="up" class="btn btn-default btn-sm {{ deal|canUpvoteFormatting:user.id }}"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                            <button type="submit" name="{{deal.id}}_down" value="down"  class="btn btn-default btn-sm {{ deal|canDownvoteFormatting:user.id }}"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="progress">
+                <div class="progress-bar progress-bar-info" style="width: {{deal.temperature}}%"></div>
+            </div>
+            
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                var disqus_shortname = 'chollometro'; // required: replace example with your forum shortname
+        
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+{% else %}
+        <p>La liamos, el deal que buscas no existe...</p>
+{% endif %}
+{% endblock %}

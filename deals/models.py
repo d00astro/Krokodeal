@@ -11,6 +11,7 @@ class Deal(models.Model):
 
     #Mandatory fields
     title_text = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=60, blank=True)
     link_url = models.URLField()
 
     price_decimal = models.DecimalField(max_digits=10, decimal_places=2)
@@ -28,6 +29,12 @@ class Deal(models.Model):
     expired = models.BooleanField(default=False)
     temperature = models.IntegerField(default=0)
     
+    
+    def save(self, *args, **kwargs):
+        if not self.id:
+            #Only set the slug when the object is created.
+            self.slug = slugify(self.title_text) #Or whatever you want the slug to use
+        super(Deal, self).save(*args, **kwargs)
     
     def __str__(self):              # __unicode__ on Python 2
         return self.title_text
