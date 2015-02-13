@@ -6,6 +6,15 @@ from django.utils.text import slugify
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+import base64
+import hashlib
+import hmac
+import json
+import time
+ 
+DISQUS_SECRET_KEY = '5jcqqKPHFQ0x9067ktzdy8CWBHR3VZnIwqF8YFx1hqrxjpQhe0WrjNZhQEpgRRbJ'
+DISQUS_PUBLIC_KEY = '1fW7SMxyYjW2qJu2PYlJQOgDHT61FjwPmILNN6TG0LWRSxFSzkarP62WP2jE0xof'
+
 TEMPERATURE_INCREASE = 7
 
 class Deal(models.Model):
@@ -128,15 +137,37 @@ class Profile(models.Model):
         
     def __str__(self):              # __unicode__ on Python 2
         return self.user.username
-    
-    """ def __init__(self, aUser):
-        user = aUser
-        votes = 0
-    
-    def __init__(self, aUser, aVotes):
-        user = aUser
-        votes = aVotes"""
         
+    def get_disqus_sso(self):
+        print("hello get_disqus_sso")
+        # create a JSON packet of our data attributes
+        data = json.dumps({
+            'id': self.user.id,
+            'username': self.user.username,
+            'email': self.user.email,
+        })
+        print(data)
+        # encode the data to base64
+        message = base64.b64encode(data.encode('UTF-8'))
+        #message = base64.b64encode(bytes(data, 'UTF-8'))
+        # generate a timestamp for signing the message
+        timestamp = int(time.time())
+        # generate our hmac signature
+        messageAndTimestamp = '%s %s' % (message, timestamp)
+        sig = hmac.HMAC(DISQUS_SECRET_KEY.encode(), messageAndTimestamp.encode(), hashlib.sha1).hexdigest()
+     
+    # return a script tag to insert the sso message
+        return """<script type="text/javascript">
+        var disqus_config = function() {
+            this.page.remote_auth_s3 = "%(message)s %(sig)s %(timestamp)s";
+            this.page.api_key = "%(pub_key)s";
+        }
+        </script>""" % dict(
+            message=message,
+            timestamp=timestamp,
+            sig=sig,
+            pub_key=DISQUS_PUBLIC_KEY,
+        )
 
 
 ########
