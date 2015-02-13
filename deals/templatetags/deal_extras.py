@@ -20,3 +20,5 @@ def printSSO(userId):
     if not userId is None:
         aProfile = Profile.objects.get(user=userId)
         return aProfile.get_disqus_sso()
+    else:
+        return ""
