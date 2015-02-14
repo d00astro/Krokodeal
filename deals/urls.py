@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
 
-from deals import views
+from deals import views, feeds
 
 urlpatterns = patterns('',
     url(r'^$', views.newDealsView.as_view()),
@@ -20,7 +20,10 @@ urlpatterns = patterns('',
     url(r'^logout/$', views.logoutView, name='logout'),
     
     #Footer
-    url(r'^disclaimer/$', views.disclaimer.as_view(), name='disclaimer'), 
+    url(r'^disclaimer/$', views.disclaimer.as_view(), name='disclaimer'),
+    
+    #Feeds
+    url(r'^hot/feed/rss$', feeds.HotDealsFeed()),
     
     
 )
