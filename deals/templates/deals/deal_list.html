@@ -7,21 +7,21 @@
 {% if deals %}
     {% for deal in deals %}
             <div class="row">
-                <div class="col-md-2">
+                <div class="col-sm-2">
                     <a href="{{deal.link_url}}">
                         <div class="">
                             <img src="{{deal.imageUrl_url}}" alt="{{deal.title_text}}" width="100" height="100" >
                         </div>
                         <div class="">
-                            <h4 class="text-right" width="100">{{deal.price_decimal}} &euro;</h4>
+                            <h4 width="100">{{deal.price_decimal}} &euro;</h4>
                         </div>
                     </a>
                 </div>
-                <div class="col-md-9">
+                <div class="col-sm-9">
                     <h4><a href="{% url 'deals:dealDetail' deal.slug%}">{{deal.title_text}}</a></h4>
                     {{deal.description_text}}
                 </div>
-                <div class="col-md-1">
+                <div class="col-sm-1" style="width: 5em">
                     <h4 class="text-center">{{deal.temperature}}</h4>
                     <form action="{% url 'deals:vote' deal.id %}" method="post">
                         {% csrf_token %}

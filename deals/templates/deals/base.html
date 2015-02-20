@@ -59,6 +59,7 @@
           {% block content %}
           <p>Pues no hay nada por aqui...</p>
           {% endblock %}
+          
         </div>
         <div class="col-sm-3 col-sm-offset-1">
           {% if user.is_authenticated %}
@@ -66,16 +67,23 @@
               Buenas, <strong>{{ user.username }}</strong>!
               <small>Ya te ibas? <a href="{% url 'deals:logout'%}">desconectate</a></small>
               
-            </h6> 
+            </h6>
+            <a class="btn btn-primary btn-lg"href="{% url 'deals:add'%}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Avisa de un chollo</a>
           {% else %}
             <p>Hola, <a href="{% url 'deals:login'%}">haz click para autenticarte</a></p>
+            <div class="well">
             <p>
-              <a class="btn btn-primary btn-lg"href="{% url 'deals:register'%}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Registrate</a>
+              
+              <h4>
+              Nuevo en Chollometro?
+              </h4>
+              <p>Añade tus propios chollos y decide cuales valen la pena:
+              </p>
+              <a class="btn btn-primary btn-lg"href="{% url 'deals:register'%}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Regístrate</a>
             </p>
+            </div>
           {% endif %}
-          <p>
-            <a class="btn btn-primary btn-lg"href="{% url 'deals:add'%}"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Avisa de un chollo</a>
-          </p>
+         
         </div>
       </div>
     </div>
