@@ -1,5 +1,6 @@
 {% extends "deals/base.html" %}
 {% load  deal_extras %}
+{% load staticfiles %}
 
 {% block title %}Chollometro - {{deal.title_text}}{% endblock %}
 
@@ -9,7 +10,7 @@
                 <div class="col-md-2">
                     <a href="{{deal.link_url}}">
                         <div class="">
-                            <img src="{{deal.imageUrl_url}}" alt="{{deal.title_text}}" width="100" height="100" >
+                            <img src="/deals{{ deal.thumbnail_image.url }}" alt="{{deal.title_text}}" height="{{deal.thumbnail_image_height}}" width="{{deal.thumbnail_image_width}}" />
                         </div>
                         <div class="">
                             <h4 class="text-right" width="100">{{deal.price_decimal}} &euro;</h4>

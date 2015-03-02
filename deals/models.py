@@ -2,6 +2,7 @@ from django import forms
 from django.db import models
 from django.forms import ModelForm
 from django.utils.text import slugify
+from deals import library
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -27,6 +28,9 @@ class Deal(models.Model):
     price_decimal = models.DecimalField(max_digits=10, decimal_places=2)
     description_text = models.TextField() #Not sure if we should call it something else like _textarea this is the recommended type for long texts: https://docs.djangoproject.com/en/1.7/ref/models/fields/#textfield
     imageUrl_url = models.URLField(default="http://lorempixel.com/g/100/100/cats") #This should probably be an ImageField in the long term...
+    thumbnail_image =  models.ImageField(blank=True, null=True, height_field='thumbnail_image_height', width_field='thumbnail_image_width')
+    thumbnail_image_width = models.PositiveIntegerField()
+    thumbnail_image_height = models.PositiveIntegerField()
     
     #Optional fields from here I'll add the blank=True
     vendor_text = models.CharField(max_length=100, blank=True, null=True)
@@ -41,9 +45,11 @@ class Deal(models.Model):
     
     
     def save(self, *args, **kwargs):
+        
+        
         if not self.id:
             #Only set the slug when the object is created.
-            self.slug = slugify(self.title_text[:60]) #Or whatever you want the slug to use
+            self.slug = slugify(self.title_text[:60] + str(time.time())[-4:]) #Or whatever you want the slug to use
         super(Deal, self).save(*args, **kwargs)
     
     def __str__(self):              # __unicode__ on Python 2
@@ -106,7 +112,7 @@ class Deal(models.Model):
 class DealForm(ModelForm):
     class Meta:
         model = Deal
-        fields = ['title_text', 'link_url','price_decimal', 'description_text', 'imageUrl_url']
+        fields = ['title_text', 'link_url','price_decimal', 'description_text', 'imageUrl_url','thumbnail_image']
         
         widgets={
             "title_text":forms.TextInput(attrs={'placeholder':'Claro y conciso: Que es?','class':'form-control'}),
@@ -116,15 +122,16 @@ class DealForm(ModelForm):
             "imageUrl_url":forms.TextInput(attrs={'placeholder':'http://... Si no sabes, te pondremos unos gatos','class':'form-control'}),
         }
     
-       
-    
     def clean_imageUrl_url(self):
-        print("Petupetu2")
-        if(self.cleaned_data['imageUrl_url'] == ""):
-            print("petupetu3")
-            self.cleaned_data['imageUrl_url'] = "http://lorempixel.com/g/100/100/cats"
-            
-        return self.cleaned_data['imageUrl_url'] 
+        
+        url = self.cleaned_data['imageUrl_url'].lower()
+        print(url)
+        domain, path = library.split_url(url)
+        if not library.valid_url_extension(url) or not library.valid_url_mimetype(url):
+            raise forms.ValidationError("Not a valid Image. The URL must have an image extensions (.jpg/.jpeg/.png)")
+        return url
+    
+    
 
 
 #######
@@ -139,7 +146,7 @@ class Profile(models.Model):
         return self.user.username
         
     def get_disqus_sso(self):
-        print("hello get_disqus_sso")
+        
         # create a JSON packet of our data attributes
         data = json.dumps({
             'id': self.user.id,
