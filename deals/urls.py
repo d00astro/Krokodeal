@@ -28,4 +28,4 @@ urlpatterns = patterns('',
     url(r'^hot/feed/rss$', feeds.HotDealsFeed()),
     
     
-) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+) #+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
