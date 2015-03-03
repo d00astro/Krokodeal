@@ -128,9 +128,7 @@ def pil_to_filesystem(image, format="JPEG"):
     try:
         image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
         image.save('imatgedeljordi.jpeg',format = format)
-        
         return True
     except IOError:
-        print("cannot create thumbnail for '%s'" % image)
         return False
 

@@ -8,3 +8,4 @@ psycopg2==2.5.4
 python-magic==0.4.6
 requests==2.5.1
 static3==0.5.1
+whitenoise==1.0.6

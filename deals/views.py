@@ -92,9 +92,7 @@ def addDeal(request):
                 return invalidateAddDeal("Image is too large (> 4mb)")
     
             #library.pil_to_filesystem(pil_image)
-            
             django_file = library.pil_to_django(pil_image)
-            
             #form.update_image(filename, django_file)
             
             

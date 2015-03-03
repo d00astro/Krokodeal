@@ -29,8 +29,8 @@ class Deal(models.Model):
     description_text = models.TextField() #Not sure if we should call it something else like _textarea this is the recommended type for long texts: https://docs.djangoproject.com/en/1.7/ref/models/fields/#textfield
     imageUrl_url = models.URLField(default="http://lorempixel.com/g/100/100/cats") #This should probably be an ImageField in the long term...
     thumbnail_image =  models.ImageField(blank=True, null=True, height_field='thumbnail_image_height', width_field='thumbnail_image_width')
-    thumbnail_image_width = models.PositiveIntegerField()
-    thumbnail_image_height = models.PositiveIntegerField()
+    thumbnail_image_width = models.PositiveIntegerField(blank=True, null=True)
+    thumbnail_image_height = models.PositiveIntegerField(blank=True, null=True)
     
     #Optional fields from here I'll add the blank=True
     vendor_text = models.CharField(max_length=100, blank=True, null=True)
@@ -45,8 +45,6 @@ class Deal(models.Model):
     
     
     def save(self, *args, **kwargs):
-        
-        
         if not self.id:
             #Only set the slug when the object is created.
             self.slug = slugify(self.title_text[:60] + str(time.time())[-4:]) #Or whatever you want the slug to use
@@ -118,7 +116,7 @@ class DealForm(ModelForm):
             "title_text":forms.TextInput(attrs={'placeholder':'Claro y conciso: Que es?','class':'form-control'}),
             "description_text":forms.Textarea(attrs={'placeholder':'Curratelo un poco, convencenos de que acabas de encontrar un buen chollo!','class':'form-control'}),
             "link_url":forms.TextInput(attrs={'placeholder':'No te olvides del http://','class':'form-control'}),
-            "price_decimal":forms.TextInput(attrs={'placeholder':'asi: 50,3','class':'form-control','type':'text'}),
+            "price_decimal":forms.TextInput(attrs={'placeholder':'asi: 50.3','class':'form-control','type':'text'}),
             "imageUrl_url":forms.TextInput(attrs={'placeholder':'http://... Si no sabes, te pondremos unos gatos','class':'form-control'}),
         }
     
