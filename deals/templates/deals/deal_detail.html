@@ -10,7 +10,11 @@
                 <div class="col-md-2">
                     <a href="{{deal.link_url}}">
                         <div class="">
+                            {% if deal.thumbnail_image != None %}  {% comment %} legacy code, el puc borrar quan netegi la prod {% endcomment %}
                             <img src="/deals{{ deal.thumbnail_image.url }}" alt="{{deal.title_text}}" height="{{deal.thumbnail_image_height}}" width="{{deal.thumbnail_image_width}}" />
+                            {% else%}
+                            <img src="{{ deal.imageUrl_url }}" alt="{{deal.title_text}}" height="100" width="100" />
+                            {% endif %}
                         </div>
                         <div class="">
                             <h4 class="text-right" width="100">{{deal.price_decimal}} &euro;</h4>
