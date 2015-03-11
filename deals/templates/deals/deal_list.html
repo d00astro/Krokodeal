@@ -13,7 +13,8 @@
                             {% if deal.thumbnail_image = None or deal.thumbnail_image.url = None %}  {% comment %} legacy code, el puc borrar quan netegi la prod {% endcomment %}
                             <img src="{{ deal.imageUrl_url }}" alt="{{deal.title_text}}" height="100" width="100" />
                             {% else%}
-                            <img src="/deals{{ deal.thumbnail_image.url }}" alt="{{deal.title_text}}" height="{{deal.thumbnail_image_height}}" width="{{deal.thumbnail_image_width}}" />
+                        {% comment %}<img src="/deals{{ deal.thumbnail_image.url }}" alt="{{deal.title_text}}" height="{{deal.thumbnail_image_height}}" width="{{deal.thumbnail_image_width}}" />{% endcomment %}
+                            {{deal.thumbnail_image}}
                             {% endif %}
                         </div>
                         <div class="">
