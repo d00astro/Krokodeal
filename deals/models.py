@@ -6,6 +6,7 @@ from deals import library
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 import base64
 import hashlib
@@ -27,8 +28,8 @@ class Deal(models.Model):
 
     price_decimal = models.DecimalField(max_digits=10, decimal_places=2)
     description_text = models.TextField() #Not sure if we should call it something else like _textarea this is the recommended type for long texts: https://docs.djangoproject.com/en/1.7/ref/models/fields/#textfield
-    imageUrl_url = models.URLField(default="http://lorempixel.com/g/100/100/cats") #This should probably be an ImageField in the long term...
-    thumbnail_image =  models.ImageField(blank=True, null=True, height_field='thumbnail_image_height', width_field='thumbnail_image_width')
+    imageUrl_url = models.URLField(blank=True, null=True) #only for historical reasons and temporary placeholder of images
+    thumbnail_image =  models.ImageField(upload_to="deal_thumbnails", blank=True, null=True, height_field='thumbnail_image_height', width_field='thumbnail_image_width')
     thumbnail_image_width = models.PositiveIntegerField(blank=True, null=True)
     thumbnail_image_height = models.PositiveIntegerField(blank=True, null=True)
     
@@ -48,7 +49,14 @@ class Deal(models.Model):
         if not self.id:
             #Only set the slug when the object is created.
             self.slug = slugify(self.title_text[:60] + str(time.time())[-4:]) #Or whatever you want the slug to use
+            
+            #We only need to resize if we are saving directly
+            if self.thumbnail_image:
+                output = library.createThumbnailFromUpload(self.thumbnail_image.read())
+                self.thumbnail_image = InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.slug, 'image/jpeg', len(output.getvalue()), None)
+             
         super(Deal, self).save(*args, **kwargs)
+        
     
     def __str__(self):              # __unicode__ on Python 2
         return self.title_text
@@ -121,15 +129,12 @@ class DealForm(ModelForm):
         }
     
     def clean_imageUrl_url(self):
-        
         url = self.cleaned_data['imageUrl_url'].lower()
-        print(url)
-        domain, path = library.split_url(url)
-        if not library.valid_url_extension(url) or not library.valid_url_mimetype(url):
-            raise forms.ValidationError("Not a valid Image. The URL must have an image extensions (.jpg/.jpeg/.png)")
-        return url
-    
-    
+        if(url):
+            domain, path = library.split_url(url)
+            #if not library.valid_url_extension(url) or not library.valid_url_mimetype(url):
+            #    raise forms.ValidationError("Not a valid Image. The URL must have an image extensions (.jpg/.jpeg/.png)")
+            return url    
 
 
 #######

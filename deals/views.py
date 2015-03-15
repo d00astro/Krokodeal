@@ -63,46 +63,49 @@ def addDeal(request):
      # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = DealForm(request.POST)
+        form = DealForm(request.POST, request.FILES)
         
         # check whether it's valid:
         if form.is_valid():
-            print("post_check")
             
-            def invalidateAddDeal(msg):
-                form.errors['imageUrl_url'] = [msg, ]
-                return render(request,'deals/deal_add.html', {'form': form,})
-            
-            url = form.data['imageUrl_url']
-            domain, path = library.split_url(url)
-            filename = library.get_url_tail(path)
-            
-            print("Domain:" + domain)
-            print("Filename: " + filename)
-    
-            if not library.image_exists(domain, path):
-                return invalidateAddDeal("Couldn't retreive image. (There was an error reaching the server)")
-    
-            fobject = library.retrieve_image(url)
-            if not library.valid_image_mimetype(fobject):
-                return invalidateAddDeal("Downloaded file was not a valid image")
-    
-            pil_image = Image.open(fobject)
-            if not library.valid_image_size(pil_image)[0]:
-                return invalidateAddDeal("Image is too large (> 4mb)")
-    
-            #library.pil_to_filesystem(pil_image)
-            django_file = library.pil_to_django(pil_image)
-            #form.update_image(filename, django_file)
-            
-            
-            # process the data in form.cleaned_data as required
-            # Create a form instance from POST data.
-            myDeal = form.save()
-            
-            myDeal.thumbnail_image.save(myDeal.slug + ".jpeg", django_file)
-            
-            
+            thumbnail_image = request.FILES.get('thumbnail_image', None)
+            print("now checking: ")
+            print (thumbnail_image)
+            print(request)
+            if(not thumbnail_image is None):  #if he is attaching an image, we save the form normally
+                print("about to save")
+                print(thumbnail_image)
+                myDeal = form.save()
+                
+                #myDeal.thumbnail_image.save(myDeal.slug + ".jpeg", django_file)
+            else:  #else he needs some processing
+                print("metode tradicional")
+                def invalidateAddDeal(msg):
+                    form.errors['imageUrl_url'] = [msg, ]
+                    return render(request,'deals/deal_add.html', {'form': form,})
+                
+                url = form.data['imageUrl_url']
+                domain, path = library.split_url(url)
+        
+                if not library.image_exists(domain, path):
+                    return invalidateAddDeal("No he conseguido encontrar la imagen...  Prueba de subirla")
+        
+                fobject = library.retrieve_image(url)
+                if not library.valid_image_mimetype(fobject):
+                    return invalidateAddDeal("Consegui descargar un fichero, pero no parece que sea una imagen...")
+        
+                pil_image = Image.open(fobject)
+                if not library.valid_image_size(pil_image)[0]:
+                    return invalidateAddDeal("Image is too large (> 4mb)")
+        
+                django_file = library.pil_to_django(pil_image)
+                
+                # process the data in form.cleaned_data as required
+                # Create a form instance from POST data.
+                myDeal = form.save()
+                
+                myDeal.thumbnail_image.save(myDeal.slug + ".jpeg", django_file)
+
             # redirect to a new URL:
             return HttpResponseRedirect('/deals/')
 

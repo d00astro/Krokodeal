@@ -94,7 +94,6 @@ def image_exists(domain, path, check_size=False, size_limit=1024):
         return False
 
     try:
-        
         length = int([x[1] for x in headers if x[0] == 'content-length'][0])
     except:
         length = 0
@@ -122,6 +121,22 @@ def pil_to_django(image, format="JPEG"):
     image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
     image.save(fobject, format=format)
     return ContentFile(fobject.getvalue())
+
+def resize_django_image(djangoImage):
+    image = Image.open(io.StringIO(djangoImage.read()))
+    image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+    fobject = io.BytesIO()
+    image.save(fobject, format='JPEG', quality=75)
+    return ContentFile(fobject.getvalue())
+
+def createThumbnailFromUpload(imageStream, format="JPEG"):
+    image = Image.open(io.BytesIO(imageStream))
+    image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+    fobject = io.BytesIO()
+    image.save(fobject, format='JPEG', quality=75)
+    fobject.seek(0)
+    return fobject
+    
 
 def pil_to_filesystem(image, format="JPEG"):
     

@@ -3,7 +3,7 @@
 {% block title %}Chollometro - Avisa de un chollo{% endblock %}
 
 {% block content %}
-<form role="form" action="{% url 'deals:add'%}" method="post">
+<form role="form" action="{% url 'deals:add'%}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   
     {{ form.non_field_errors }}
@@ -31,13 +31,12 @@
         </div>
     </div>
     <div class="form-group">
-        {{ form.imageUrl_url.errors }}
-        <label for="{{ form.imageUrl_url.id_for_label }}">Url de la imagen:</label>
+        <label for="{{ form.imageUrl_url.id_for_label }}">Url de la imagen:</label> {{ form.imageUrl_url.errors }}
         {{ form.imageUrl_url }}
     </div>
-        <div class="form-group" style="visibility:hidden; height:0px;">
+        <div class="form-group">
         {{ form.thumbnail_image.errors }}
-        <label for="{{ form.thumbnail_image.id_for_label }}">Subir imagen:</label>
+        <label for="{{ form.thumbnail_image.id_for_label }}">(alternativa) Subir imagen:</label>
         {{ form.thumbnail_image }}
     </div>
   <input type="submit" class="btn btn-primary" value="Submit" />
