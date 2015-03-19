@@ -48,7 +48,7 @@ class Deal(models.Model):
     def save(self, *args, **kwargs):
         if not self.id:
             #Only set the slug when the object is created.
-            self.slug = slugify(self.title_text[:60] + str(time.time())[-4:]) #Or whatever you want the slug to use
+            self.slug = slugify(self.title_text[:56] + str(time.time())[-4:]) #Or whatever you want the slug to use
             
             #We only need to resize if we are saving directly
             if self.thumbnail_image:

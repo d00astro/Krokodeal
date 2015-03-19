@@ -23,7 +23,7 @@ except ImportError:
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 #DEBUG = False
 
 
@@ -130,7 +130,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 #AWS Changes
 
-AWS_STORAGE_BUCKET_NAME = 'chollometrotest'
+AWS_STORAGE_BUCKET_NAME = 'chollometro'
 
 # Tell django-storages that when coming up with the URL for an item in S3 storage, keep
 # it simple - just use this domain plus the path. (If this isn't set, things get complicated).
