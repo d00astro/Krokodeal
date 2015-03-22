@@ -17,6 +17,8 @@ try:
 except ImportError:
     SECRET_KEY = os.environ.get('SECRET_KEY')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    DISQUS_SECRET_KEY = os.environ.get('DISQUS_SECRET_KEY')
+    MANDRILL_APIKEY = os.environ.get('MANDRILL_APIKEY')
     
 
 # Quick-start development settings - unsuitable for production
