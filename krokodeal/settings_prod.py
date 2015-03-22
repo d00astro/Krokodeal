@@ -12,15 +12,18 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-#import passwords
-#from deals import views
-from krokodeal.megasecret import *
+try:
+    from krokodeal.megasecret import *
+except ImportError:
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 #DEBUG = False
 
 
@@ -95,8 +98,8 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 
 #HEROKU CHANGES
 # Parse database configuration from $DATABASE_URL
-#import dj_database_url
-#DATABASES['default'] =  dj_database_url.config()
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -120,9 +123,14 @@ STATICFILES_DIRS = (
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 ###END HEROKU CHANGES
 
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+###END HEROKU CHANGES
+
 #AWS Changes
 
-AWS_STORAGE_BUCKET_NAME = 'chollometrotest'
+AWS_STORAGE_BUCKET_NAME = 'chollometro'
 
 # Tell django-storages that when coming up with the URL for an item in S3 storage, keep
 # it simple - just use this domain plus the path. (If this isn't set, things get complicated).
@@ -130,8 +138,30 @@ AWS_STORAGE_BUCKET_NAME = 'chollometrotest'
 # We also use it in the next setting.
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
+AWS_ACCESS_KEY_ID = 'AKIAIE46WWYT7B4ZMVZA'
+
 MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 #END AWS Changes
+
+
+DISQUS_PUBLIC_KEY = '1fW7SMxyYjW2qJu2PYlJQOgDHT61FjwPmILNN6TG0LWRSxFSzkarP62WP2jE0xof'
+
+#Login via email
+AUTHENTICATION_BACKENDS = (
+    'deals.backends.EmailBackend',
+    'django.contrib.auth.backends.ModelBackend'
+)
+
+#Sending of emails
+MANDRILL_USERNAME = 'app33425306@heroku.com'
+
+EMAIL_HOST = 'smtp.mandrillapp.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = MANDRILL_USERNAME
+EMAIL_HOST_PASSWORD = MANDRILL_APIKEY
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'info@chollometro.com'
+SERVER_EMAIL = 'info@chollometro.com'
 

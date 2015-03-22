@@ -12,6 +12,8 @@ from django.contrib.auth import authenticate, login, logout
 
 from deals.models import Deal, DealForm, MyUserCreationForm
 
+from django.core.mail import send_mail
+
 
 class newDealsView(generic.ListView):
     template_name = 'deals/deal_list.html'
@@ -117,20 +119,16 @@ def addDeal(request):
 
 #Register user
 def registerView(request):
-     # if this is a POST request we need to process the form data
     if request.method == 'POST':
-        # create a form instance and populate it with data from the request:
         form = MyUserCreationForm(request.POST)
         
-        # check whether it's valid:
         if form.is_valid():
-            # process the data in form.cleaned_data as required
-            # Create a form instance from POST data.
-            form.save()
-            # redirect to a new URL:
+            new_user = form.save()
+            new_user = authenticate(username=form.cleaned_data['username'],
+                                    password=form.cleaned_data['password1'])
+            login(request, new_user)
+            
             return HttpResponseRedirect('/deals/')
-
-    # if a GET (or any other method) we'll create a blank form
     else:
         form = MyUserCreationForm()
         

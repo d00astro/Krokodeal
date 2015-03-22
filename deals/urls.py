@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, url
 from django.conf import settings
 from django.conf.urls.static import static
+from django.core.urlresolvers import reverse_lazy
 
 from deals import views, feeds
 
@@ -17,8 +18,9 @@ urlpatterns = patterns('',
     #Users
     url(r'^register/$', views.registerView, name='register'),
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
-    url(r'^password/reset/$', 'django.contrib.auth.views.password_reset', {'template_name': 'deals/password_reset_form.html'}, name='passwordReset'),
+    url(r'^password/reset/$', 'django.contrib.auth.views.password_reset', {'template_name': 'deals/password_reset_form.html','post_reset_redirect':reverse_lazy('password_reset_done')}, name='passwordReset'),
     url(r'^password/reset_done/$', 'django.contrib.auth.views.password_reset_done', {'template_name': 'deals/password_reset_done.html'}, name='password_reset_done'),
+    #url(r'^password/password_reset_confirm/$', 'django.contrib.auth.views.password_reset_confirm', {'template_name': 'deals/password_reset_confirm.html'}, name='password_reset_confirm'),
     url(r'^logout/$', views.logoutView, name='logout'),
     
     #Footer

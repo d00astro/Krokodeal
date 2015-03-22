@@ -14,9 +14,6 @@ import hmac
 import json
 import time
  
-DISQUS_SECRET_KEY = '5jcqqKPHFQ0x9067ktzdy8CWBHR3VZnIwqF8YFx1hqrxjpQhe0WrjNZhQEpgRRbJ'
-DISQUS_PUBLIC_KEY = '1fW7SMxyYjW2qJu2PYlJQOgDHT61FjwPmILNN6TG0LWRSxFSzkarP62WP2jE0xof'
-
 TEMPERATURE_INCREASE = 7
 
 class Deal(models.Model):
@@ -202,3 +199,4 @@ class MyUserCreationForm(UserCreationForm):
             myNewProfile.user = user
             myNewProfile.save()
         return user
+    
