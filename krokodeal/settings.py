@@ -17,11 +17,15 @@ try:
 except ImportError:
     SECRET_KEY = os.environ.get('SECRET_KEY')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    DISQUS_SECRET_KEY = os.environ.get('DISQUS_SECRET_KEY')
-    MANDRILL_APIKEY = os.environ.get('MANDRILL_APIKEY')
+    
+
+# Quick-start development settings - unsuitable for production
+# See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
+#DEBUG = False
+
 
 TEMPLATE_DEBUG = True
 
@@ -62,6 +66,7 @@ DEFAULT_CHARSET = 'UTF-8'  #Added by Jordi
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -71,14 +76,20 @@ DATABASES = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
+
 LANGUAGE_CODE = 'es-es'
 LANGUAGES = (
     ('es', 'Spanish'),
 )
 
+
+
 TIME_ZONE = 'UTC'
+
 USE_I18N = True
+
 USE_L10N = True
+
 USE_TZ = True
 
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
@@ -87,8 +98,8 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 
 #HEROKU CHANGES
 # Parse database configuration from $DATABASE_URL
-#import dj_database_url
-#DATABASES['default'] =  dj_database_url.config()
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -106,6 +117,12 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+###END HEROKU CHANGES
+
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
@@ -113,7 +130,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 #AWS Changes
 
-AWS_STORAGE_BUCKET_NAME = 'chollometrotest'
+AWS_STORAGE_BUCKET_NAME = 'chollometro'
 
 # Tell django-storages that when coming up with the URL for an item in S3 storage, keep
 # it simple - just use this domain plus the path. (If this isn't set, things get complicated).
@@ -127,6 +144,7 @@ MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 #END AWS Changes
+
 
 DISQUS_PUBLIC_KEY = '1fW7SMxyYjW2qJu2PYlJQOgDHT61FjwPmILNN6TG0LWRSxFSzkarP62WP2jE0xof'
 
@@ -146,3 +164,4 @@ EMAIL_HOST_PASSWORD = MANDRILL_APIKEY
 EMAIL_USE_TLS = False
 DEFAULT_FROM_EMAIL = 'info@chollometro.com'
 SERVER_EMAIL = 'info@chollometro.com'
+
