@@ -3,6 +3,7 @@ from django.db import models
 from django.forms import ModelForm
 from django.utils.text import slugify
 from deals import library
+from django.conf import settings
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -161,7 +162,7 @@ class Profile(models.Model):
         timestamp = int(time.time())
         # generate our hmac signature
         messageAndTimestamp = '%s %s' % (message, timestamp)
-        sig = hmac.HMAC(DISQUS_SECRET_KEY.encode(), messageAndTimestamp.encode(), hashlib.sha1).hexdigest()
+        sig = hmac.HMAC(settings.DISQUS_SECRET_KEY.encode(), messageAndTimestamp.encode(), hashlib.sha1).hexdigest()
      
     # return a script tag to insert the sso message
         return """<script type="text/javascript">
@@ -173,7 +174,7 @@ class Profile(models.Model):
             message=message,
             timestamp=timestamp,
             sig=sig,
-            pub_key=DISQUS_PUBLIC_KEY,
+            pub_key=settings.DISQUS_PUBLIC_KEY,
         )
 
 
