@@ -53,6 +53,13 @@
                 })();
             </script>
             <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            
+            <meta name="twitter:card" content="summary" />
+            <meta name="twitter:site" content="@chollometro" />
+            <meta name="twitter:title" content="{{deal.title_text}}" />
+            <meta name="twitter:description" content="{{deal.description_text}}" />
+            <meta name="twitter:image" content="{{ deal.thumbnail_image.url }}" />
+            <meta name="twitter:url" content="{{deal.link_url}}" />
     
 {% else %}
         <p>La liamos, el deal que buscas no existe...</p>

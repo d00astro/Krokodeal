@@ -20,7 +20,7 @@ class newDealsView(generic.ListView):
     context_object_name = 'deals'
     
     def get_queryset(self):
-        dealList = Deal.objects.all().order_by('-dateAdded')[0:10]
+        dealList = Deal.objects.all().order_by('-dateAdded')
         dealPaginator = Paginator(dealList,10)
         
         page = self.kwargs.get('page')
