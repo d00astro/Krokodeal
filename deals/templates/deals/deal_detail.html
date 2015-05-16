@@ -41,6 +41,10 @@
             </div>
             <div >
                 <div class="pull-right">
+                    <a href="http://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}{{ object.get_absolute_url }}"><img src="{% static 'img/32-facebook.png' %}" alt="Compartir en Facebook"></a>
+                    <a href="https://plusone.google.com/_/+1/confirm?url={{ request.build_absolute_uri }}{{ object.get_absolute_url }}"><img src="{% static 'img/32-googleplus.png' %}" alt="Compartir en Google +"></a>
+                    <a href="https://twitter.com/intent/tweet?text={{deal.title_text}}&url={{ request.build_absolute_uri }}{{ object.get_absolute_url }}&via=Chollometro"><img src="{% static 'img/32-twitter.png' %}" alt="Compartir en Twitter"></a>
+                    <a href="http://www.meneame.net/submit.php?url={{ request.build_absolute_uri }}{{ object.get_absolute_url }}&title={{deal.title_text}}"><img src="{% static 'img/32-meneame.png' %}" alt="Compartir en Menéame"></a>
                     <span class='st_facebook_large' displayText='Facebook'></span>
                     <span class='st_twitter_large' displayText='Tweet'></span>
                     <span class='st_googleplus_large' displayText='Google +'></span>
