@@ -14,6 +14,7 @@
                             <img src="{{ deal.thumbnail_image.url }}" alt="{{deal.title_text}}" height="{{deal.thumbnail_image_height}}" width="{{deal.thumbnail_image_width}}" />
                             {% else%}
                             <img src="{{ deal.imageUrl_url }}" alt="{{deal.title_text}}" height="100" width="100" />
+                            <!-- afegir opacity opacity: 0.4; al css if deal is expired-->
                             {% endif %}
                         </div>
                         <div class="">
@@ -23,7 +24,7 @@
                 </div>
                 <div class="col-md-9">
                     <h4><a href="{{deal.link_url}}">{{deal.title_text}}</a></h4>
-                    {{deal.description_text}}
+                    {{ deal.description_text|urlizetrunc:50|linebreaks }}
                 </div>
                 <div class="col-md-1">
                     <h4 class="text-center">{{deal.temperature}}</h4>
@@ -41,16 +42,10 @@
             </div>
             <div >
                 <div class="pull-right">
-                    <a href="http://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}{{ object.get_absolute_url }}"><img src="{% static 'img/32-facebook.png' %}" alt="Compartir en Facebook"></a>
-                    <a href="https://plusone.google.com/_/+1/confirm?url={{ request.build_absolute_uri }}{{ object.get_absolute_url }}"><img src="{% static 'img/32-googleplus.png' %}" alt="Compartir en Google +"></a>
-                    <a href="https://twitter.com/intent/tweet?text={{deal.title_text}}&url={{ request.build_absolute_uri }}{{ object.get_absolute_url }}&via=Chollometro"><img src="{% static 'img/32-twitter.png' %}" alt="Compartir en Twitter"></a>
-                    <a href="http://www.meneame.net/submit.php?url={{ request.build_absolute_uri }}{{ object.get_absolute_url }}&title={{deal.title_text}}"><img src="{% static 'img/32-meneame.png' %}" alt="Compartir en Menéame"></a>
-                    <span class='st_facebook_large' displayText='Facebook'></span>
-                    <span class='st_twitter_large' displayText='Tweet'></span>
-                    <span class='st_googleplus_large' displayText='Google +'></span>
-                    <span class='st_meneame_large' displayText='Meneame'></span>
-                    <span class='st_pinterest_large' displayText='Pinterest'></span>
-                    <span class='st_whatsapp_large' displayText='WhatsApp'></span>
+                    <a href="http://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}{{ object.get_absolute_url }}" target="_blank"><img src="{% static 'img/32-facebook.png' %}" alt="Compartir en Facebook"></a>
+                    <a href="https://plusone.google.com/_/+1/confirm?url={{ request.build_absolute_uri }}{{ object.get_absolute_url }}" target="_blank"><img src="{% static 'img/32-googleplus.png' %}" alt="Compartir en Google +"></a>
+                    <a href="https://twitter.com/intent/tweet?text={{deal.title_text}}&url={{ request.build_absolute_uri }}{{ object.get_absolute_url }}&via=Chollometro" target="_blank"><img src="{% static 'img/32-twitter.png' %}" alt="Compartir en Twitter"></a>
+                    <a href="http://www.meneame.net/submit.php?url={{ request.build_absolute_uri }}{{ object.get_absolute_url }}&title={{deal.title_text}}" target="_blank"><img src="{% static 'img/32-meneame.png' %}" alt="Compartir en Menéame"></a>
                 </div>
             </div>
             {{ user.id|printSSO|safe }}
