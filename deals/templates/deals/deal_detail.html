@@ -8,7 +8,7 @@
 {% if deal %}
             <div class="row deal {% if deal.expired %}dealexpired{% endif %}">
                 <div class="col-md-2">
-                    <a href="{{deal.link_url}}">
+                    <a href="{{deal.link_url}}" target="_blank">
                         <div class="">
                             {% if deal.thumbnail_image != None %}  {% comment %} legacy code, el puc borrar quan netegi la prod {% endcomment %}
                             <img src="{{ deal.thumbnail_image.url }}" alt="{{deal.title_text}}" height="{{deal.thumbnail_image_height}}" width="{{deal.thumbnail_image_width}}" />
