@@ -151,6 +151,15 @@ def vote(request, deal_id):
     aDeal.save()
     return HttpResponseRedirect(reverse('deals:new'))
 
+@login_required
+def expire(request, deal_id):
+    
+    aDeal = get_object_or_404(Deal, pk=deal_id)
+    
+    aDeal.expire(request.user.id)
+    
+    aDeal.save()
+    return HttpResponseRedirect(reverse('deals:dealDetail',kwargs={'slug':aDeal.slug}) )
 
 class disclaimer(generic.ListView):
     template_name = 'deals/disclaimer.html'

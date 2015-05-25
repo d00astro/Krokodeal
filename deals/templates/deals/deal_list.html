@@ -6,7 +6,7 @@
 {% block content %}
 {% if deals %}
     {% for deal in deals %}
-            <div class="row">
+            <div class="row deal {% if deal.expired %}dealexpired{% endif %}">
                 <div class="col-sm-2">
                     <a href="{{deal.link_url}}">
                         <div class="">
@@ -22,8 +22,8 @@
                     </a>
                 </div>
                 <div class="col-sm-9">
-                    <h4><a href="{% url 'deals:dealDetail' deal.slug%}">{{deal.title_text}}</a></h4>
-                    {{deal.description_text}}
+                    <h4>{% if deal.expired %}<span class="label label-default">Caducado</span> {% endif %}<a href="{% url 'deals:dealDetail' deal.slug%}">{{deal.title_text}}</a></h4>
+                    {{deal.description_text|urlizetrunc:50}}
                 </div>
                 <div class="col-sm-1" style="width: 5em">
                     <h4 class="text-center">{{deal.temperature}}</h4>

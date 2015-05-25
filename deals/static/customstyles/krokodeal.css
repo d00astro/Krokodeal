@@ -14,3 +14,15 @@ body {
   height: 80px;
   background-color: #f5f5f5;
 }
+
+.dealexpired img{
+  opacity: 0.4;
+}
+
+.dealexpired h4 a{
+  color: #BBBBBB
+}
+
+.dealexpired h4{
+  color: #BBBBBB
+}

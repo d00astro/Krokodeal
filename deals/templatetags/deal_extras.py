@@ -5,12 +5,16 @@ register = template.Library()
 
 @register.filter
 def canUpvoteFormatting(deal, userId):
+    if deal.expired:
+        return 'disabled'
     if not userId is None:
         if not (deal.canUpvote(userId)):
             return 'disabled'
     
 @register.filter
 def canDownvoteFormatting(deal, userId):
+    if deal.expired:
+        return 'disabled'
     if not userId is None:
         if not (deal.canDownvote(userId)):
             return 'disabled'

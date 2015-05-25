@@ -111,7 +111,19 @@ class Deal(models.Model):
             
             self.temperature = self.temperature - TEMPERATURE_INCREASE
             return True
-
+        
+    def expire(self, aUserId):
+        #will change the state and log who did it (can either expire or unexpire)
+        aProfile = Profile.objects.get(user=aUserId)
+        self.profilesThatExpired.add(aProfile)
+        
+        if self.expired:
+            self.expired = False
+        else:
+            self.expired = True
+        
+        return True
+        
 # Create the form class.
 class DealForm(ModelForm):
     class Meta:
@@ -142,6 +154,7 @@ class Profile(models.Model):
     user = models.ForeignKey(User)
     upvotes = models.ManyToManyField(Deal, blank=True, related_name='profilesThatUpvoted')
     downvotes = models.ManyToManyField(Deal, blank=True, related_name='profilesThatDownvoted')
+    expirations = models.ManyToManyField(Deal, blank=True, related_name='profilesThatExpired')
         
     def __str__(self):              # __unicode__ on Python 2
         return self.user.username

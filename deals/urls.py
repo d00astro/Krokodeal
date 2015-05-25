@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^add/$', views.addDeal, name='add'),
     url(r'^about/$', views.about.as_view(), name='about'), 
     url(r'^(?P<deal_id>[0-9]+)/vote/$', views.vote, name='vote'),
+    url(r'^(?P<deal_id>[0-9]+)/expire/$', views.expire, name='expire'),
     
     #Users
     url(r'^register/$', views.registerView, name='register'),
