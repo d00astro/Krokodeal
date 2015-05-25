@@ -22,7 +22,7 @@
                     </a>
                 </div>
                 <div class="col-md-9">
-                    <h4>{% if deal.expired %}<span class="label label-default">Caducado</span> {% endif %}<a href="{{deal.link_url}}">{{deal.title_text}}</a></h4>
+                    <h4>{% if deal.expired %}<span class="label label-default">Caducado</span> {% endif %}<a href="{{deal.link_url}}" target="_blank">{{deal.title_text}}</a></h4>
                     {{ deal.description_text|urlizetrunc:50|linebreaks }}
                 </div>
                 <div class="col-md-1">
